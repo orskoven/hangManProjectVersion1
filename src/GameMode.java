@@ -21,20 +21,21 @@ public class GameMode {
 
             //Inspiration from : https://stackoverflow.com/questions/36170017/swapping-out-elements-between-arraylists
         }
-        for (int i = 0, j = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size();i++,j++) {
+        for (int i = 0, j = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size();) {
             System.out.println("Please type a letter to guess: ");
             char inputCharGuess = scanner.next().charAt(0);
-            characterArrayList.add(inputCharGuess);
             if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
-                int indexToSwitch = characterArrayListToBeGuessed.indexOf(inputCharGuess);
-                j = indexToSwitch;
-                i = indexToSwitch;
-                characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
-            } else {
-                i--;
-                j--;
+                do {
+                    //if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
+                    int indexToSwap = characterArrayListToBeGuessed.indexOf(inputCharGuess);
+                    j = indexToSwap;
+                    i = indexToSwap;
+                    characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
 
+                    // }
+                } while (characterArrayListToBeGuessed.contains(inputCharGuess));
             }
+
             //System.out.println(characterArrayListToBeGuessed);
 
             System.out.println(characterArrayList);
