@@ -17,10 +17,6 @@ public class Movies {
         this.popularity = popularity;
         this.awards = awards;
     }
-
-    public int getTitleLength() {
-        return this.title.length();
-    }
     public String getTitle() {
         return this.title;
     }

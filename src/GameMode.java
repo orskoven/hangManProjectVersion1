@@ -11,7 +11,13 @@ public class GameMode {
     private String charToString = "";
     private String[] stringToContainAnswers = charToString.split(",");
 
+
     public GameMode() {
+
+    }
+
+    public ArrayList<Character> getCharacterArrayList() {
+        return characterArrayList;
     }
 
     public void getGameFunctionalities(String wordToBeGuessed) {
@@ -20,7 +26,8 @@ public class GameMode {
             characterArrayList.add('_');
 
             //Inspiration from : https://stackoverflow.com/questions/36170017/swapping-out-elements-between-arraylists
-        }
+
+        } System.out.println("The word to be guessed is this long: "+ characterArrayList);
         for (int i = 0, j = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size();) {
             System.out.println("Please type a letter to guess: ");
             char inputCharGuess = scanner.next().charAt(0);
