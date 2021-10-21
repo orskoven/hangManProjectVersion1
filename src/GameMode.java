@@ -30,7 +30,7 @@ public class GameMode {
 
         } System.out.println("The word to be guessed is this long: "+ characterArrayList);
         System.out.println(drawHangman().get(0));
-        for (int i = 0, j = 0, k = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size() || k > 7;) {
+        for (int i = 0, j = 0, k = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size();) {
             System.out.println("Please type a letter to guess: ");
             char inputCharGuess = scanner.next().charAt(0);
             if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
@@ -41,7 +41,7 @@ public class GameMode {
                     characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
                     i++;
                     j++;
-                } while (characterArrayListToBeGuessed.contains(inputCharGuess));
+                } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 7);
             } else {
                 k++;
             }
@@ -105,7 +105,7 @@ public class GameMode {
                             "\nII                I" +
                             "\nII                O" +
                             "\nII                I" +
-                            "\nII               /\\" +
+                            "\nII               / \\" +
                             "\nII" +
                             "\nII" +
                             "\nII" +
@@ -117,7 +117,7 @@ public class GameMode {
                             "\nII                I" +
                             "\nII                O" +
                             "\nII               -I" +
-                            "\nII               /\\" +
+                            "\nII               / \\" +
                             "\nII" +
                             "\nII" +
                             "\nII" +
@@ -129,7 +129,7 @@ public class GameMode {
                             "\nII                I" +
                             "\nII                O" +
                             "\nII               -I-" +
-                            "\nII               /\\" +
+                            "\nII               / \\" +
                             "\nII" +
                             "\nII" +
                             "\nII" +
