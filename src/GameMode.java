@@ -27,29 +27,35 @@ public class GameMode {
             characterArrayList.add('_');
 
             //Inspiration from : https://stackoverflow.com/questions/36170017/swapping-out-elements-between-arraylists
-
-        } System.out.println("The word to be guessed is this long: "+ characterArrayList);
+        }   System.out.println("The word to be guessed is this long: " + characterArrayList);
         System.out.println(drawHangman().get(0));
-        for (int i = 0, j = 0, k = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size();) {
-            System.out.println("Please type a letter to guess: ");
-            char inputCharGuess = scanner.next().charAt(0);
-            if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
-                do {
-                    int indexToSwap = characterArrayListToBeGuessed.indexOf(inputCharGuess);
-                    j = indexToSwap;
-                    i = indexToSwap;
-                    characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
-                    i++;
-                    j++;
-                } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 7);
-            } else {
-                k++;
+        try {
+            for (int i = 0, j = 0, k = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size(); ) {
+                System.out.println("Please type a letter to guess: ");
+                char inputCharGuess = scanner.next().charAt(0);
+                if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
+                    do {
+                        int indexToSwap = characterArrayListToBeGuessed.indexOf(inputCharGuess);
+                        j = indexToSwap;
+                        i = indexToSwap;
+                        characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
+                        i++;
+                        j++;
+                    } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 7);
+                } else {
+                    k++;
+                }System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
             }
-            System.out.println(characterArrayList +"\n" +hangManDrawings.get(k));
+
+        } catch (IndexOutOfBoundsException exception) {
+            System.out.println("GAME OVER!!");
+        }
+
         }
 
 
-    }
+
+
     public ArrayList<String> drawHangman() {
             hangManDrawings.add("IIIIIIIIIIIIIIIIIII" +
                               "\nII                I" +

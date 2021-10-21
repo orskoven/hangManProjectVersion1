@@ -8,7 +8,7 @@ public class Game {
 
     public static void main(String[] args) {
 
-            System.out.println("Welcome to the frog and movie hang man the game edition!\nPress 1 if you are a grashoppa' (easy/frog mode) \nPress any other number for movie title/hard mode!!\nPress X to exit!!");
+            System.out.println("Welcome to the frog and movie hang man the game edition!\n\nPress 1 if you are a grashoppa' (easy/frog mode) \n\nPress any other number for movie title/hard mode!!\n\nPress X to exit!!");
                int inputFromUser = scanner.nextInt();
                 GameMode easyGame = new GameMode();
                GameMode hardGame = new GameMode();
