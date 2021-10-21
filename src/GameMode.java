@@ -46,7 +46,8 @@ public class GameMode {
                         // j++;
                     } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 5);
                 } else if (saveCommand){
-                    writerToFile(characterArrayList);
+                    String saveWord = characterArrayListToBeGuessed.toString();
+                    writerToFile(saveWord);
                 } else {
                     k++;
                 }
@@ -151,11 +152,11 @@ public class GameMode {
 
     // got inspiration from https://www.javatpoint.com/java-writer-class
 
-     static void writerToFile(ArrayList<Character> listToBeSaved) {
+     static void writerToFile(String listToBeSaved) {
         try {
             Writer w = new FileWriter("resources/GameStats.csv");
-            ArrayList<Character> content = listToBeSaved;
-            w.write(String.valueOf(content));
+            String content = listToBeSaved;
+            w.write(content);
             w.close();
             System.out.println("Saved");
         } catch (IOException e) {
