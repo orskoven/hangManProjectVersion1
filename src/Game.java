@@ -7,15 +7,16 @@ public class Game {
 
 
     public static void main(String[] args) {
-        System.out.println("Welcome to the frog and movie hang man the game edition!\nPress 1 if you are a grashoppa' (easy mode) \nPress any other number for hard mode!!");
-        int inputFromUser = scanner.nextInt();
-        GameMode easyGame = new GameMode();
-        GameMode hardGame = new GameMode();
-        if (inputFromUser == 1) {
-                easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
-            } else {
-                hardGame.getGameFunctionalities(getRandomMovieTitle(getAllMovies()).toLowerCase(Locale.ROOT));
-            }
+
+            System.out.println("Welcome to the frog and movie hang man the game edition!\nPress 1 if you are a grashoppa' (easy/frog mode) \nPress any other number for movie title/hard mode!!\nPress X to exit!!");
+               int inputFromUser = scanner.nextInt();
+                GameMode easyGame = new GameMode();
+               GameMode hardGame = new GameMode();
+               if (inputFromUser == 1) {
+                   easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
+               } else {
+                   hardGame.getGameFunctionalities(getRandomMovieTitle(getAllMovies()).toLowerCase(Locale.ROOT));
+               }
         }
 
 
@@ -77,7 +78,7 @@ public class Game {
 
     static String getRandomFrogName(ArrayList<String> frogs) {
         Random random = new Random();
-        int randomNumber = random.nextInt(90 - 1) + 1;
+        int randomNumber = random.nextInt(78 - 1) + 1;
         return frogs.get(randomNumber);
     }
 }

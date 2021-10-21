@@ -10,6 +10,7 @@ public class GameMode {
     private ArrayList<Character> characterArrayListToBeGuessed = new ArrayList<>();
     private String charToString = "";
     private String[] stringToContainAnswers = charToString.split(",");
+    private ArrayList<String> hangManDrawings = new ArrayList<String>(7);
 
 
     public GameMode() {
@@ -28,25 +29,113 @@ public class GameMode {
             //Inspiration from : https://stackoverflow.com/questions/36170017/swapping-out-elements-between-arraylists
 
         } System.out.println("The word to be guessed is this long: "+ characterArrayList);
-        for (int i = 0, j = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size();) {
+        System.out.println(drawHangman().get(0));
+        for (int i = 0, j = 0, k = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size() || k > 7;) {
             System.out.println("Please type a letter to guess: ");
             char inputCharGuess = scanner.next().charAt(0);
             if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
                 do {
-                    //if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
                     int indexToSwap = characterArrayListToBeGuessed.indexOf(inputCharGuess);
                     j = indexToSwap;
                     i = indexToSwap;
                     characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
-
-                    // }
+                    i++;
+                    j++;
                 } while (characterArrayListToBeGuessed.contains(inputCharGuess));
+            } else {
+                k++;
             }
-
-            //System.out.println(characterArrayListToBeGuessed);
-
-            System.out.println(characterArrayList);
+            System.out.println(characterArrayList +"\n" +hangManDrawings.get(k));
         }
+
+
+    }
+    public ArrayList<String> drawHangman() {
+            hangManDrawings.add("IIIIIIIIIIIIIIIIIII" +
+                              "\nII                I" +
+                              "\nII                I" +
+                              "\nII                I" +
+                              "\nII" +
+                              "\nII" +
+                              "\nII" +
+                              "\nII" +
+                              "\nII" +
+                              "\nII" +
+                              "\nIIIIIIIIIIIIIIIIIII");
+            hangManDrawings.add(
+                      "IIIIIIIIIIIIIIIIIII" +
+                    "\nII                I" +
+                    "\nII                I" +
+                    "\nII                I" +
+                    "\nII                O" +
+                    "\nII" +
+                    "\nII" +
+                    "\nII" +
+                    "\nII" +
+                    "\nII" +
+                    "\nIIIIIIIIIIIIIIIIIII");
+            hangManDrawings.add(
+                              "IIIIIIIIIIIIIIIIIII" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                O" +
+                            "\nII                I" +
+                            "\nII" +
+                            "\nII" +
+                            "\nII" +
+                            "\nII" +
+                            "\nIIIIIIIIIIIIIIIIIII");
+            hangManDrawings.add(
+                              "IIIIIIIIIIIIIIIIIII" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                O" +
+                            "\nII                I" +
+                            "\nII                \\" +
+                            "\nII" +
+                            "\nII" +
+                            "\nII" +
+                            "\nIIIIIIIIIIIIIIIIIII");
+            hangManDrawings.add(
+                              "IIIIIIIIIIIIIIIIIII" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                O" +
+                            "\nII                I" +
+                            "\nII               /\\" +
+                            "\nII" +
+                            "\nII" +
+                            "\nII" +
+                            "\nIIIIIIIIIIIIIIIIIII");
+            hangManDrawings.add(
+                              "IIIIIIIIIIIIIIIIIII" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                O" +
+                            "\nII               -I" +
+                            "\nII               /\\" +
+                            "\nII" +
+                            "\nII" +
+                            "\nII" +
+                            "\nIIIIIIIIIIIIIIIIIII");
+            hangManDrawings.add(
+                              "IIIIIIIIIIIIIIIIIII" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                I" +
+                            "\nII                O" +
+                            "\nII               -I-" +
+                            "\nII               /\\" +
+                            "\nII" +
+                            "\nII" +
+                            "\nII" +
+                            "\nIIIIIIIIIIIIIIIIIII");
+
+        return hangManDrawings;
     }
 }
 
