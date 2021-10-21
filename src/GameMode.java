@@ -1,10 +1,11 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.function.Predicate;
+import java.io.*;
+import java.util.*;
+
+
+
 
 public class GameMode {
+
     static Scanner scanner = new Scanner(System.in);
     private ArrayList<Character> characterArrayList = new ArrayList<>();
     private ArrayList<Character> characterArrayListToBeGuessed = new ArrayList<>();
@@ -27,10 +28,11 @@ public class GameMode {
             characterArrayList.add('_');
 
             //Inspiration from : https://stackoverflow.com/questions/36170017/swapping-out-elements-between-arraylists
-        }   System.out.println("The word to be guessed is this long: " + characterArrayList);
+        }
+        System.out.println("The word to be guessed is this long: " + characterArrayList);
         System.out.println(drawHangman().get(0));
         try {
-            for (int i = 0, j = 0, k = 0; i < characterArrayListToBeGuessed.size() && j < characterArrayList.size(); ) {
+            for (int i = 0, j = 0, k = 0; /*i < characterArrayListToBeGuessed.size() && j < characterArrayList.size()*/; ) {
                 System.out.println("Please type a letter to guess: ");
                 char inputCharGuess = scanner.next().charAt(0);
                 if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
@@ -39,111 +41,125 @@ public class GameMode {
                         j = indexToSwap;
                         i = indexToSwap;
                         characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
-                        i++;
-                        j++;
+                        //i++;
+                       // j++;
                     } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 7);
                 } else {
                     k++;
-                }System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
+                }
+                System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
+                writerToFile(characterArrayList);
             }
+
 
         } catch (IndexOutOfBoundsException exception) {
             System.out.println("GAME OVER!!");
         }
 
-        }
-
-
+    }
 
 
     public ArrayList<String> drawHangman() {
-            hangManDrawings.add("IIIIIIIIIIIIIIIIIII" +
-                              "\nII                I" +
-                              "\nII                I" +
-                              "\nII                I" +
-                              "\nII" +
-                              "\nII" +
-                              "\nII" +
-                              "\nII" +
-                              "\nII" +
-                              "\nII" +
-                              "\nIIIIIIIIIIIIIIIIIII");
-            hangManDrawings.add(
-                      "IIIIIIIIIIIIIIIIIII" +
-                    "\nII                I" +
-                    "\nII                I" +
-                    "\nII                I" +
-                    "\nII                O" +
-                    "\nII" +
-                    "\nII" +
-                    "\nII" +
-                    "\nII" +
-                    "\nII" +
-                    "\nIIIIIIIIIIIIIIIIIII");
-            hangManDrawings.add(
-                              "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                O" +
-                            "\nII                I" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
-            hangManDrawings.add(
-                              "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                O" +
-                            "\nII                I" +
-                            "\nII                \\" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
-            hangManDrawings.add(
-                              "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                O" +
-                            "\nII                I" +
-                            "\nII               / \\" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
-            hangManDrawings.add(
-                              "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                O" +
-                            "\nII               -I" +
-                            "\nII               / \\" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
-            hangManDrawings.add(
-                              "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                O" +
-                            "\nII               -I-" +
-                            "\nII               / \\" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add("IIIIIIIIIIIIIIIIIII" +
+                "\nII                I" +
+                "\nII                I" +
+                "\nII                I" +
+                "\nII" +
+                "\nII" +
+                "\nII" +
+                "\nII" +
+                "\nII" +
+                "\nII" +
+                "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add(
+                "IIIIIIIIIIIIIIIIIII" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                O" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add(
+                "IIIIIIIIIIIIIIIIIII" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                O" +
+                        "\nII                I" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add(
+                "IIIIIIIIIIIIIIIIIII" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                O" +
+                        "\nII                I" +
+                        "\nII                \\" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add(
+                "IIIIIIIIIIIIIIIIIII" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                O" +
+                        "\nII                I" +
+                        "\nII               / \\" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add(
+                "IIIIIIIIIIIIIIIIIII" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                O" +
+                        "\nII               -I" +
+                        "\nII               / \\" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nIIIIIIIIIIIIIIIIIII");
+        hangManDrawings.add(
+                "IIIIIIIIIIIIIIIIIII" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                I" +
+                        "\nII                O" +
+                        "\nII               -I-" +
+                        "\nII               / \\" +
+                        "\nII" +
+                        "\nII" +
+                        "\nII" +
+                        "\nIIIIIIIIIIIIIIIIIII");
 
         return hangManDrawings;
     }
+
+     static void writerToFile(ArrayList<Character> listToBeSaved) {
+        try {
+            Writer w = new FileWriter("resources/GameStats.csv");
+            ArrayList<Character> content = listToBeSaved;
+            w.write(String.valueOf(content));
+            w.close();
+            System.out.println("Done");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 
 
 

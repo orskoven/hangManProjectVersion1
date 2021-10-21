@@ -4,31 +4,37 @@ import java.util.*;
 
 public class Game {
     static Scanner scanner = new Scanner(System.in);
+    static ArrayList<String> allMoviesTitle = new ArrayList<String>();
+    static ArrayList<Movies> movies = new ArrayList<>();
 
 
     public static void main(String[] args) {
 
-            System.out.println("Welcome to the frog and movie hang man the game edition!\n\nPress 1 if you are a grashoppa' (easy/frog mode) \n\nPress any other number for movie title/hard mode!!\n\nPress X to exit!!");
+            System.out.println("Welcome to the frog and movie hang man the game edition!\n______\nPress 1 if you are a grashoppa' (easy/frog mode) \n____\nPress any other number for movie title/hard mode!!\n___\nPress X to exit!!");
                int inputFromUser = scanner.nextInt();
                 GameMode easyGame = new GameMode();
                GameMode hardGame = new GameMode();
                if (inputFromUser == 1) {
                    easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
                } else {
-                   hardGame.getGameFunctionalities(getRandomMovieTitle(getAllMovies()).toLowerCase(Locale.ROOT));
+                   System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject());
+                   hardGame.getGameFunctionalities( getAllMoviesList().get(randomizer()).getTitle());
                }
+        }
+
+        static int randomizer(){
+            Random random = new Random();
+            return random.nextInt(1583 - 1) + 1;
         }
 
 
 
-    static String getRandomMovieTitle(ArrayList<String> movies) {
-        Random random = new Random();
-        int randomNumber = random.nextInt(1583 - 1) + 1;
-        return movies.get(randomNumber);
+    static String getAllMoviesTitle(ArrayList<Movies> movies) {
+        return movies.get(randomizer()).getTitle();
+
     }
 
-    static ArrayList<String> getAllMovies() {
-        ArrayList<String> allMoviesTitle = new ArrayList<>();
+    static ArrayList<Movies> getAllMoviesList() {
         File populationFiles = new File("resources/movies.csv");
         try {
             Scanner sc = new Scanner(populationFiles);
@@ -44,6 +50,7 @@ public class Game {
                 boolean movieAwards = Boolean.parseBoolean(stringLikeArray[4]);
                 Movies currentMovie = new Movies(movieYear, movieLength, movieTitle, movieSubject, moviePopularity, movieAwards);
                 allMoviesTitle.add(currentMovie.getTitle());
+                movies.add(currentMovie);
 
 
             }
@@ -51,7 +58,7 @@ public class Game {
             System.out.println("File could not be found!");
             e.printStackTrace();
         }
-        return allMoviesTitle;
+        return movies;
     }
 
     static ArrayList<String> getAllFrogNames() {
