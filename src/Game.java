@@ -17,7 +17,8 @@ public class Game {
                if (inputFromUser == 1) {
                    easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
                } else {
-                   System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject());
+                   System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: "+
+                           getAllMoviesList().get(randomizer()).getYear());
                    hardGame.getGameFunctionalities( getAllMoviesList().get(randomizer()).getTitle());
                }
         }
