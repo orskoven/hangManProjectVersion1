@@ -6,7 +6,8 @@ public class Game {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<String> allMoviesTitle = new ArrayList<String>();
     static ArrayList<Movies> movies = new ArrayList<>();
-    static ArrayList<Character> savedWord = new ArrayList<>();
+    static ArrayList<SavedGame> savedGames = new ArrayList<>();
+
 
 
     public static void main(String[] args) {
@@ -20,11 +21,12 @@ public class Game {
                } else if (inputFromUser == 2){
                    GameMode hardGame = new GameMode();
                    System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: "+
-                           getAllMoviesList().get(randomizer()).getYear());
+                           getAllMoviesList().get(randomizer()).getYear()+"\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
                    hardGame.getGameFunctionalities( getAllMoviesList().get(randomizer()).getTitle());
                }  else if (inputFromUser == 3){
                    GameMode savedGame = new GameMode();
-                   savedGame.getGameFunctionalities(getSavedGame());
+                   savedGame.getGameFunctionalitiesForSavedGame(getSavedGame().get(0).getSaveWord(),getSavedGame().get(0).getWordToBeGuessed(),getSavedGame().get(0).getK(),
+                           getSavedGame().get(0).getI(),getSavedGame().get(0).getJ());
                }
         }
 
@@ -94,20 +96,28 @@ public class Game {
         int randomNumber = random.nextInt(78 - 1) + 1;
         return frogs.get(randomNumber);
     }
-    static String getSavedGame() {
+    static ArrayList<SavedGame> getSavedGame() {
         File populationFiles = new File("resources/GameStats.csv");
         try {
             Scanner sc = new Scanner(populationFiles);
-            while (sc.hasNext()) {
-                char line = sc.next().charAt(0);
-                System.out.println(line);
-                savedWord.add(line);
-            }
+            while (sc.hasNextLine()) {
+                // Få mappet dataværdier til et object
+                String line = sc.nextLine();
+                String[] stringLikeArray = line.split(";");
+                String savedWord = stringLikeArray[0];
+                String wordToBeGuessed = stringLikeArray[1];
+                int k = Integer.parseInt(stringLikeArray[2]);
+                int i = Integer.parseInt(stringLikeArray[3]);
+                int j = Integer.parseInt(stringLikeArray[4]);
+                String idName =  stringLikeArray[5];
+                SavedGame currentSavedGame = new SavedGame(savedWord, wordToBeGuessed, k, i, j,idName);
+                savedGames.add(currentSavedGame);
+                }
         } catch (FileNotFoundException e) {
             System.out.println("File could not be found!");
             e.printStackTrace();
         }
-        return savedWord.toString() ;
+        return savedGames;
     }
 
 }
