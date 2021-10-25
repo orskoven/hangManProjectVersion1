@@ -1,3 +1,6 @@
+import com.logicbig.example.ConsoleHelper;
+
+
 import java.io.*;
 import java.util.*;
 
@@ -10,18 +13,30 @@ public class GameMode {
     private ArrayList<Character> characterArrayList = new ArrayList<>();
     private ArrayList<Character> characterArrayListToBeGuessed = new ArrayList<>();
     private String charToString = "";
+    private String userNameIdSave;
     private String[] stringToContainAnswers = charToString.split(",");
     private ArrayList<String> hangManDrawings = new ArrayList<String>(7);
+    private String idName = null;
+    private boolean isSaveNamePresent;
+    private boolean isGameExitting;
 
 
     public GameMode() {
 
     }
 
+    public boolean isSaveNamePresent() {
+        return isSaveNamePresent;
+    }
+
+    public boolean isGameRunning() {
+        return isGameExitting;
+    }
+
+
     public ArrayList<Character> getCharacterArrayList() {
         return characterArrayList;
     }
-    //little inspiration from : https://stackoverflow.com/questions/36170017/swapping-out-elements-between-arraylists
     public void getGameFunctionalities(String wordToBeGuessed) {
             for (int i = 0; i < wordToBeGuessed.length(); i++) {
                 characterArrayListToBeGuessed.add(wordToBeGuessed.charAt(i));
@@ -30,8 +45,8 @@ public class GameMode {
         System.out.println("Let the game begin!\n" + characterArrayList);
         System.out.println(drawHangman().get(0));
         try {
-            for (int i = 0, j = 0, k = 0; /*i < characterArrayListToBeGuessed.size() && j < characterArrayList.size()*/; ) {
-                System.out.println("Please type a letter to guess:\nor 1 to save");
+            for (int i = 0, j = 0, k = 0; !isGameExitting; ) {
+                System.out.println("Please type a letter to guess:\npress 1 to save\npress 3 to exit!");
                 char inputCharGuess = scanner.next().charAt(0);
                 boolean saveCommand = '1' == inputCharGuess;
                 if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
@@ -40,23 +55,34 @@ public class GameMode {
                         j = indexToSwap;
                         i = indexToSwap;
                         characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
-                        //i++;
-                        // j++;
+                        isGameExitting = false;
                     } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 5);
-                } else if (saveCommand){
+                } else if (saveCommand) {
                     String saveWord = "";
                     for (int l = 0; l < characterArrayListToBeGuessed.size(); l++) {
                         saveWord += characterArrayList.get(l);
                     }
                     System.out.println("Please type your name: ");
                     String userNameIdSave = scanner.next();
-                    writerToFile(saveWord.concat(";") + wordToBeGuessed.concat(";") + k + ";" + i + ';' + j + ';'+ userNameIdSave);
-                    k = 7;
+                    writerToFile(saveWord.concat(";") + wordToBeGuessed.concat(";") + k + ";" + i + ';' + j + ';' + userNameIdSave);
+                    System.out.println("Do you want to exit? Y/N");
+                    String inputFromUser = scanner.next();
+                    if (inputFromUser.equals("Y".toLowerCase(Locale.ROOT))) {
+                        isGameExitting = true;
+                    } else if (inputFromUser.equals("N".toLowerCase(Locale.ROOT))) {
+                        isGameExitting = false;
+                    }
+                } else if (inputCharGuess == '3'){
+                    isGameExitting = true;
                 } else {
                     k++;
+                    isGameExitting = false;
                 }
-                System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
+                if (!isGameExitting) {
+                    System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
+                }
             }
+
 
 
         } catch (IndexOutOfBoundsException exception) {
@@ -73,6 +99,7 @@ public class GameMode {
                             "\nII" +
                             "\nII" +
                             "\nIIIIIIIIIIIIIIIIIII");
+
         }
 
     }
@@ -87,9 +114,10 @@ public class GameMode {
         }
         System.out.println("Let's start were you left!\n" + characterArrayList);
         System.out.println(drawHangman().get(k));
+        isGameExitting = false;
         try {
-            for (int u = i,y = k, z = j; /*i < characterArrayListToBeGuessed.size() && j < characterArrayList.size()*/; ) {
-                System.out.println("Please type a letter to guess:\nor 1 to save");
+            for (;!isGameExitting; ) {
+                System.out.println("Please type a letter to guess:\npress 1 to save\npress 3 to exit!");
                 char inputCharGuess = scanner.next().charAt(0);
                 boolean saveCommand = '1' == inputCharGuess;
                 if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
@@ -98,8 +126,6 @@ public class GameMode {
                         i = indexToSwap;
                         j = indexToSwap;
                         characterArrayListToBeGuessed.set(i, characterArrayList.set(j, characterArrayListToBeGuessed.get(i)));
-                        //i++;
-                        // j++;
                     } while (characterArrayListToBeGuessed.contains(inputCharGuess) && k < 5);
                 } else if (saveCommand) {
                     String saveWord = "";
@@ -107,13 +133,24 @@ public class GameMode {
                         saveWord += characterArrayList.get(l);
                     }
                     System.out.println("Please type your name: ");
-                    String userNameIdSave = scanner.next();
+                    userNameIdSave = scanner.next();
                     writerToFile(saveWord.concat(";") + wordToBeGuessed.concat(";") + k + ";" + i + ';' + j + ';'+ userNameIdSave);
-                    k = 7;
+                    System.out.println("Do you want to exit? Y/N");
+                    String inputFromUser = scanner.next();
+                    if (inputFromUser.equals("N".toLowerCase(Locale.ROOT))){
+                        isGameExitting = false;
+                    } else if (inputFromUser.equals("Y".toLowerCase(Locale.ROOT))) {
+                        isGameExitting = true;
+                    }
+                } else if (inputCharGuess == '3'){
+                    isGameExitting = true;
                 } else {
                     k++;
+                    isGameExitting = false;
+
+                }if (!isGameExitting) {
+                        System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
                 }
-                System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
             }
 
 
@@ -137,6 +174,7 @@ public class GameMode {
 
 
     public ArrayList<String> drawHangman() {
+        ConsoleHelper hangManFace = new ConsoleHelper();
         hangManDrawings.add("IIIIIIIIIIIIIIIIIII" +
                 "\nII                I" +
                 "\nII                I" +
@@ -189,7 +227,7 @@ public class GameMode {
                         "\nII                I" +
                         "\nII                I" +
                         "\nII                I" +
-                        "\nII                O" +
+                        "\nII                "+hangManFace +
                         "\nII                I" +
                         "\nII               / \\" +
                         "\nII" +
@@ -226,18 +264,23 @@ public class GameMode {
 
     // got inspiration from https://www.javatpoint.com/java-writer-class
 
-     static void writerToFile(String listToBeSaved) {
-        try {
-            Writer w = new FileWriter("resources/GameStats.csv");
-            String content = listToBeSaved;
-            w.write(content);
-            w.close();
-            System.out.println("Saved"+"💾");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+     public void writerToFile(String listToBeSaved) {
+         try {
+             Writer w = new FileWriter("resources/GameStats.csv", true);
+             w.write("\r\n");
+             String content = listToBeSaved;
+             w.write(content);
+             w.close();
+
+             System.out.println("Saved" + "💾");
+         } catch (IOException e) {
+             e.printStackTrace();
+             isSaveNamePresent = false;
+             System.out.println("Name not found!");
+         }
+     }
 }
+
 
 
 

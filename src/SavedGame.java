@@ -52,17 +52,15 @@ class SavedGame {
         return savedGames;
     }
 
-
     @Override
     public String toString() {
-        return "savedGame{" +
+        return "SavedGame{" +
                 "saveWord='" + saveWord + '\'' +
                 ", wordToBeGuessed='" + wordToBeGuessed + '\'' +
                 ", k=" + k +
                 ", i=" + i +
                 ", j=" + j +
-                ", idName" + idName +
+                ", idName='" + idName + '\'' +
                 '}';
     }
-
 }

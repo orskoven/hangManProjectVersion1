@@ -1,3 +1,8 @@
+
+
+
+import com.logicbig.example.ConsoleHelper;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -7,34 +12,50 @@ public class Game {
     static ArrayList<String> allMoviesTitle = new ArrayList<String>();
     static ArrayList<Movies> movies = new ArrayList<>();
     static ArrayList<SavedGame> savedGames = new ArrayList<>();
+    static String idNameInput;
+    static SavedGame savedGameToLoad;
+    static boolean isGameRunning;
+    static String lastLine = "";
+    static String ani;
+    static String endString;
+    static String animate;
 
 
+    public static void main(String[] args) throws InterruptedException {
+        do{
+            ConsoleHelper.main();
+            System.out.println("\n\nPress 1 - FROG MODE\n_________________________________________________\n\n\n" +
+                    "Press 2 - MOVIE MODE\n_________________________________________________\n\n\nPress 3 - SAVED GAME\n_________________________________________________\n\n\n" +
+                    "Press X - EXIT\n_________________________________________________");
+            int inputFromUser = scanner.nextInt();
+            if (inputFromUser == 1) {
+                GameMode easyGame = new GameMode();
+                easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
+                isGameRunning = easyGame.isGameRunning();
+            } else if (inputFromUser == 2) {
+                GameMode hardGame = new GameMode();
+                System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: " +
+                        getAllMoviesList().get(randomizer()).getYear() + "\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
+                hardGame.getGameFunctionalities(getAllMoviesList().get(randomizer()).getTitle());
+                isGameRunning = hardGame.isGameRunning();
+            } else if (inputFromUser == 3) {
+                GameMode savedGame = new GameMode();
+                do {
+                    System.out.println("Please type your name: ");
+                    idNameInput = scanner.next();
+                    savedGame.getGameFunctionalitiesForSavedGame(getSavedGame().getSaveWord(), getSavedGame().getWordToBeGuessed(), getSavedGame().getK(),
+                            getSavedGame().getI(), getSavedGame().getJ());
+                    isGameRunning = savedGame.isGameRunning();
+                } while (savedGame.isSaveNamePresent());
 
-    public static void main(String[] args) {
+            }
+        } while (isGameRunning);
+    }
 
-            System.out.println("Welcome to the frog and movie hang man the game edition!\n______\nPress 1 if you are a grashoppa' (easy/frog mode) " +
-                    "\n____\nPress 2 for movie title/hard mode!!\n___\nPress X to exit!!\n__\nPress 3 to continue saved game");
-               int inputFromUser = scanner.nextInt();
-               if (inputFromUser == 1) {
-                   GameMode easyGame = new GameMode();
-                   easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
-               } else if (inputFromUser == 2){
-                   GameMode hardGame = new GameMode();
-                   System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: "+
-                           getAllMoviesList().get(randomizer()).getYear()+"\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
-                   hardGame.getGameFunctionalities( getAllMoviesList().get(randomizer()).getTitle());
-               }  else if (inputFromUser == 3){
-                   GameMode savedGame = new GameMode();
-                   savedGame.getGameFunctionalitiesForSavedGame(getSavedGame().get(0).getSaveWord(),getSavedGame().get(0).getWordToBeGuessed(),getSavedGame().get(0).getK(),
-                           getSavedGame().get(0).getI(),getSavedGame().get(0).getJ());
-               }
-        }
-
-        static int randomizer(){
-            Random random = new Random();
-            return random.nextInt(1583 - 1) + 1;
-        }
-
+    static int randomizer() {
+        Random random = new Random();
+        return random.nextInt(1583 - 1) + 1;
+    }
 
 
     static String getAllMoviesTitle(ArrayList<Movies> movies) {
@@ -96,7 +117,8 @@ public class Game {
         int randomNumber = random.nextInt(78 - 1) + 1;
         return frogs.get(randomNumber);
     }
-    static ArrayList<SavedGame> getSavedGame() {
+
+    static SavedGame getSavedGame() {
         File populationFiles = new File("resources/GameStats.csv");
         try {
             Scanner sc = new Scanner(populationFiles);
@@ -109,15 +131,27 @@ public class Game {
                 int k = Integer.parseInt(stringLikeArray[2]);
                 int i = Integer.parseInt(stringLikeArray[3]);
                 int j = Integer.parseInt(stringLikeArray[4]);
-                String idName =  stringLikeArray[5];
-                SavedGame currentSavedGame = new SavedGame(savedWord, wordToBeGuessed, k, i, j,idName);
-                savedGames.add(currentSavedGame);
+                String idName = stringLikeArray[5];
+                if (Objects.equals(idNameInput, idName)) {
+                    savedGameToLoad = new SavedGame(savedWord, wordToBeGuessed, k, i, j, idName);
+                } else {
+                    System.out.println("Name could not be found!");
                 }
+
+
+            }
         } catch (FileNotFoundException e) {
             System.out.println("File could not be found!");
             e.printStackTrace();
         }
-        return savedGames;
+        return savedGameToLoad;
     }
 
+
 }
+
+
+
+
+
+
