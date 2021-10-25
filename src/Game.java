@@ -2,6 +2,7 @@
 
 
 import com.logicbig.example.ConsoleHelper;
+import com.logicbig.example.ConsoleHelper1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,34 +23,40 @@ public class Game {
 
 
     public static void main(String[] args) throws InterruptedException {
-        do{
-            ConsoleHelper.main();
-            System.out.println("\n\nPress 1 - FROG MODE\n_________________________________________________\n\n\n" +
-                    "Press 2 - MOVIE MODE\n_________________________________________________\n\n\nPress 3 - SAVED GAME\n_________________________________________________\n\n\n" +
-                    "Press X - EXIT\n_________________________________________________");
-            int inputFromUser = scanner.nextInt();
-            if (inputFromUser == 1) {
-                GameMode easyGame = new GameMode();
-                easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
-                isGameRunning = easyGame.isGameRunning();
-            } else if (inputFromUser == 2) {
-                GameMode hardGame = new GameMode();
-                System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: " +
-                        getAllMoviesList().get(randomizer()).getYear() + "\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
-                hardGame.getGameFunctionalities(getAllMoviesList().get(randomizer()).getTitle());
-                isGameRunning = hardGame.isGameRunning();
-            } else if (inputFromUser == 3) {
-                GameMode savedGame = new GameMode();
-                do {
-                    System.out.println("Please type your name: ");
-                    idNameInput = scanner.next();
-                    savedGame.getGameFunctionalitiesForSavedGame(getSavedGame().getSaveWord(), getSavedGame().getWordToBeGuessed(), getSavedGame().getK(),
-                            getSavedGame().getI(), getSavedGame().getJ());
-                    isGameRunning = savedGame.isGameRunning();
-                } while (savedGame.isSaveNamePresent());
+        try {
+            do {
+                ConsoleHelper.main();
+                System.out.println("\n\nPress 1 - FROG MODE\n_________________________________________________\n\n\n" +
+                        "Press 2 - MOVIE MODE\n_________________________________________________\n\n\nPress 3 - SAVED GAME\n_________________________________________________\n\n\n" +
+                        "Press X - EXIT\n_________________________________________________");
 
-            }
-        } while (isGameRunning);
+                int inputFromUser = scanner.nextInt();
+                if (inputFromUser == 1) {
+                    GameMode easyGame = new GameMode();
+                    easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
+                    isGameRunning = easyGame.isGameRunning();
+                } else if (inputFromUser == 2) {
+                    GameMode hardGame = new GameMode();
+                    System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: " +
+                            getAllMoviesList().get(randomizer()).getYear() + "\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
+                    hardGame.getGameFunctionalities(getAllMoviesList().get(randomizer()).getTitle());
+                    isGameRunning = hardGame.isGameRunning();
+                } else if (inputFromUser == 3) {
+                    GameMode savedGame = new GameMode();
+                    do {
+                        System.out.println("Please type your name: ");
+                        idNameInput = scanner.next();
+                        savedGame.getGameFunctionalitiesForSavedGame(getSavedGame().getSaveWord(), getSavedGame().getWordToBeGuessed(), getSavedGame().getK(),
+                                getSavedGame().getI(), getSavedGame().getJ());
+                        isGameRunning = savedGame.isGameRunning();
+                    } while (savedGame.isSaveNamePresent());
+
+                }
+
+            } while (isGameRunning);
+        } catch (InputMismatchException e) {
+            ConsoleHelper1.main();
+        }
     }
 
     static int randomizer() {

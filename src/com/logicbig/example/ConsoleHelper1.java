@@ -1,62 +1,63 @@
 package com.logicbig.example;
+// https://www.logicbig.com/how-to/code-snippets/jcode-java-command-line-animation <- inspiration to whole class
+import java.nio.charset.StandardCharsets;
 
 public class ConsoleHelper1 {
     private String lastLine = "";
+
+
 
     public void print(String line) {
         //clear the last line if longer
         if (lastLine.length() > line.length()) {
             String temp = "";
-            for (int i = 0; i < lastLine.length(); i++) {
+            for (char i = 0; i < lastLine.length(); i++) {
                 temp += " ";
             }
             if (temp.length() > 1)
-                System.out.print("\r" + temp);
+                System.out.print("\r\r" + temp);
         }
         System.out.print("\r" + line);
         lastLine = line;
     }
 
     private byte anim;
+    private byte anima = 3;
 
     public void animate(String line) {
         switch (anim) {
             case 1:
+                print("_________________________________________________\n");
+                break;
+            case 2:
+                print("        GOOD-                              |\n");
+                break;
             case 3:
-                print("[" +
-                        "\n_________________________________________________" +
-                        "\n                                                 " +
-                        "\n                  HANG MAN                       " +
-                        "\n                MOVIE & FROG               o     " +
-                        "\n                  EDITION                 -I-         " +
-                        "\n                                          / \\            " +
-                        "\n_________________________________________________ " +
-                        "\n ]" + line);
+                print("            BYE                            😢\n");
+                break;
+            case 4:
+                print("                                          -I-        \n");
+                break;
+            case 5:
+                print("                                          / \\         \n");
+                break;
+            case 6:
+                print("_________________________________________________\n");
                 break;
             default:
                 anim = 0;
-            case 2:
-                print("[" +
-                        "\n_________________________________________________" +
-                        "\n                                           |       " +
-                        "\n                  HANG MAN                 o       " +
-                        "\n                MOVIE & FROG              -I-      " +
-                        "\n                  EDITION                 / \\          " +
-                        "\n                                                      " +
-                        "\n_________________________________________________ " +
-                        "\n ]" + line);
-                break;
+                print("                                           ");
         }
-            anim++;
-        }
+        anim++;
+    }
 
-
-    public static void main(String[] args) throws InterruptedException {
-        ConsoleHelper1 consoleHelper = new ConsoleHelper1();
-        for (int i = 0; i < 20; i++) {
-            consoleHelper.animate(i + "");
-            //simulate a piece of task
+    public static void main() throws InterruptedException {
+        ConsoleHelper1 consoleHelper1 = new ConsoleHelper1();
+        for (int i = 0; i < 8; i++) {
+            consoleHelper1.animate(   i + "");
             Thread.sleep(400);
+            //simulate a piece of task
         }
     }
 }
+

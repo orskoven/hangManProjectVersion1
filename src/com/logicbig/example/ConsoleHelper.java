@@ -4,17 +4,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ConsoleHelper {
     private String lastLine = "";
-    private String endString =
-            "        \n" +
-            "                MOVIE & FROG              -I-        \n" +
-            "                  EDITION                 / \\         \n" +
-            "\n_________________________________________________" +
-            "\n\nPress 1 - FROG MODE" +
-            "\n\n_________________________________________________\n" +
-            "\nPress 2 - MOVIE MODE\n\n_________________________________________________\n" +
-            "\nPress X - EXIT\n\n_________________________________________________\n" +
-            "\nPress 3 - SAVED GAME" +
-            "\n\n_________________________________________________\n";
 
 
 
@@ -22,7 +11,7 @@ public class ConsoleHelper {
         //clear the last line if longer
         if (lastLine.length() > line.length()) {
             String temp = "";
-            for (int i = 0; i < lastLine.length(); i++) {
+            for (char i = 0; i < lastLine.length(); i++) {
                 temp += " ";
             }
             if (temp.length() > 1)
