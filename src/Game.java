@@ -20,6 +20,11 @@ public class Game {
     static String ani;
     static String endString;
     static String animate;
+    static int inputFromUser;
+    static boolean isSaveNamePresent;
+    static GameMode nullGame;
+    static GameMode savedGameCurrent = new GameMode();
+
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -30,7 +35,7 @@ public class Game {
                         "Press 2 - MOVIE MODE\n_________________________________________________\n\n\nPress 3 - SAVED GAME\n_________________________________________________\n\n\n" +
                         "Press X - EXIT\n_________________________________________________");
 
-                int inputFromUser = scanner.nextInt();
+                inputFromUser = scanner.nextInt();
                 if (inputFromUser == 1) {
                     GameMode easyGame = new GameMode();
                     easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
@@ -41,18 +46,22 @@ public class Game {
                             getAllMoviesList().get(randomizer()).getYear() + "\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
                     hardGame.getGameFunctionalities(getAllMoviesList().get(randomizer()).getTitle());
                     isGameRunning = hardGame.isGameRunning();
-                } else if (inputFromUser == 3) {
-                    GameMode savedGame = new GameMode();
-                    do {
-                        System.out.println("Please type your name: ");
-                        idNameInput = scanner.next();
-                        savedGame.getGameFunctionalitiesForSavedGame(getSavedGame().getSaveWord(), getSavedGame().getWordToBeGuessed(), getSavedGame().getK(),
-                                getSavedGame().getI(), getSavedGame().getJ());
-                        isGameRunning = savedGame.isGameRunning();
-                    } while (savedGame.isSaveNamePresent());
+                    } else if (inputFromUser == 3) {
+                    GameMode savedGameCurrent = new GameMode();
+                        try {
+                        do {
+                            System.out.println("Please type your name: ");
+                            idNameInput = scanner.next();
+                            savedGameCurrent.getGameFunctionalitiesForSavedGame(getSavedGame().getSaveWord(), getSavedGame().getWordToBeGuessed(), getSavedGame().getK(),
+                                    getSavedGame().getI(), getSavedGame().getJ());
+                            isGameRunning = savedGameCurrent.isGameRunning();
+                        } while (savedGameCurrent.isSaveNamePresent());
+                    } catch (NullPointerException exception) {
+                            System.out.println("Name not found!");
+                            isGameRunning = !savedGameCurrent.isGameRunning();
+                        }
 
                 }
-
             } while (isGameRunning);
         } catch (InputMismatchException e) {
             ConsoleHelper1.main();
@@ -126,33 +135,37 @@ public class Game {
     }
 
     static SavedGame getSavedGame() {
+        boolean isNameFound = false;
         File populationFiles = new File("resources/GameStats.csv");
         try {
-            Scanner sc = new Scanner(populationFiles);
-            while (sc.hasNextLine()) {
-                // Få mappet dataværdier til et object
-                String line = sc.nextLine();
-                String[] stringLikeArray = line.split(";");
-                String savedWord = stringLikeArray[0];
-                String wordToBeGuessed = stringLikeArray[1];
-                int k = Integer.parseInt(stringLikeArray[2]);
-                int i = Integer.parseInt(stringLikeArray[3]);
-                int j = Integer.parseInt(stringLikeArray[4]);
-                String idName = stringLikeArray[5];
-                if (Objects.equals(idNameInput, idName)) {
-                    savedGameToLoad = new SavedGame(savedWord, wordToBeGuessed, k, i, j, idName);
-                } else {
-                    System.out.println("Name could not be found!");
+                Scanner sc = new Scanner(populationFiles);
+                while (sc.hasNextLine() || isNameFound) {
+                    // Få mappet dataværdier til et object
+                    String line = sc.nextLine();
+                    String[] stringLikeArray = line.split(";");
+                    String savedWord = stringLikeArray[0];
+                    String wordToBeGuessed = stringLikeArray[1];
+                    int k = Integer.parseInt(stringLikeArray[2]);
+                    int i = Integer.parseInt(stringLikeArray[3]);
+                    int j = Integer.parseInt(stringLikeArray[4]);
+                    String idName = stringLikeArray[5];
+
+                    if (Objects.equals(idNameInput, idName)) {
+                        savedGameToLoad = new SavedGame(savedWord, wordToBeGuessed, k, i, j, idName);
+                        isNameFound = true;
+                    } else {
+                        isNameFound = false;
+                    }
+
                 }
 
 
+            } catch(FileNotFoundException e){
+                System.out.println("File could not be found!");
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File could not be found!");
-            e.printStackTrace();
+            return savedGameToLoad;
         }
-        return savedGameToLoad;
-    }
 
 
 }

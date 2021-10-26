@@ -1,7 +1,7 @@
 package com.logicbig.example;
 // https://www.logicbig.com/how-to/code-snippets/jcode-java-command-line-animation <- inspiration to whole class
 
-public class ConsoleHelper2 {
+public class ConsoleHoler3 {
     private String lastLine = "";
 
 
@@ -29,19 +29,19 @@ public class ConsoleHelper2 {
                 print("_________________________________________________\n");
                 break;
             case 2:
-                print("        CONGR                               \n");
+                print("        GAME                |                   \n");
                 break;
             case 3:
-                print("            ATU                            \n");
+                print("           OVER             😵                    \n");
                 break;
             case 4:
-                print("             LATIONS                        🥲    \n");
+                print("                           -I-                   \n");
                 break;
             case 5:
-                print("                                           -I-      \n");
+                print("                           / \\                    \n");
                 break;
             case 6:
-                print("__________________________________________ / \\___\n");
+                print("_________________________________________________\n");
                 break;
             default:
                 anim = 0;
@@ -51,7 +51,7 @@ public class ConsoleHelper2 {
     }
 
     public static void main() throws InterruptedException {
-        ConsoleHelper2 consoleHelper1 = new ConsoleHelper2();
+        ConsoleHoler3 consoleHelper1 = new ConsoleHoler3();
         for (int i = 0; i < 8; i++) {
             consoleHelper1.animate(   i + "");
             Thread.sleep(400);
@@ -59,4 +59,5 @@ public class ConsoleHelper2 {
         }
     }
 }
+
 

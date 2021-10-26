@@ -1,4 +1,4 @@
-import com.logicbig.example.ConsoleHelper;
+import com.logicbig.example.*;
 
 
 import java.io.*;
@@ -19,6 +19,7 @@ public class GameMode {
     private String idName = null;
     private boolean isSaveNamePresent;
     private boolean isGameExitting;
+    private String winningStatment;
 
 
     public GameMode() {
@@ -37,7 +38,7 @@ public class GameMode {
     public ArrayList<Character> getCharacterArrayList() {
         return characterArrayList;
     }
-    public void getGameFunctionalities(String wordToBeGuessed) {
+    public void getGameFunctionalities(String wordToBeGuessed) throws InterruptedException {
             for (int i = 0; i < wordToBeGuessed.length(); i++) {
                 characterArrayListToBeGuessed.add(wordToBeGuessed.charAt(i));
                 characterArrayList.add('_');
@@ -46,7 +47,7 @@ public class GameMode {
         System.out.println(drawHangman().get(0));
         try {
             for (int i = 0, j = 0, k = 0; !isGameExitting; ) {
-                System.out.println("Please type a letter to guess:\npress 1 to save\npress 3 to exit!");
+                ConsoleHoler4.main();
                 char inputCharGuess = scanner.next().charAt(0);
                 boolean saveCommand = '1' == inputCharGuess;
                 if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
@@ -72,7 +73,7 @@ public class GameMode {
                     } else if (inputFromUser.equals("N".toLowerCase(Locale.ROOT))) {
                         isGameExitting = false;
                     }
-                } else if (inputCharGuess == '3'){
+                } else if (inputCharGuess == '3') {
                     isGameExitting = true;
                 } else {
                     k++;
@@ -80,26 +81,17 @@ public class GameMode {
                 }
                 if (!isGameExitting) {
                     System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
+                } if (!characterArrayList.contains('_')) {
+                    ConsoleHelper2.main();
+                    isGameExitting = true;
                 }
             }
 
 
 
-        } catch (IndexOutOfBoundsException exception) {
-            System.out.println("GAME OVER!!");
-            System.out.println(
-                              "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                😵" +
-                            "\nII               -I-" +
-                            "\nII               / \\" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
-
+        } catch (IndexOutOfBoundsException | InterruptedException exception) {
+            isGameExitting = true;
+            ConsoleHoler3.main();
         }
 
     }
@@ -117,10 +109,10 @@ public class GameMode {
         isGameExitting = false;
         try {
             for (;!isGameExitting; ) {
-                System.out.println("Please type a letter to guess:\npress 1 to save\npress 3 to exit!");
+              ConsoleHoler4.main();
                 char inputCharGuess = scanner.next().charAt(0);
                 boolean saveCommand = '1' == inputCharGuess;
-                if (characterArrayListToBeGuessed.contains(inputCharGuess)) {
+                if (characterArrayListToBeGuessed.contains(inputCharGuess) && !characterArrayList.contains(inputCharGuess)) {
                     do {
                         int indexToSwap = characterArrayListToBeGuessed.indexOf(inputCharGuess);
                         i = indexToSwap;
@@ -150,14 +142,18 @@ public class GameMode {
 
                 }if (!isGameExitting) {
                         System.out.println(characterArrayList + "\n" + hangManDrawings.get(k));
+                } if (!characterArrayList.contains('_')) {
+                    ConsoleHelper2.main();
+                    isGameExitting = true;
                 }
             }
 
 
-        } catch (IndexOutOfBoundsException exception) {
+        } catch (IndexOutOfBoundsException | InterruptedException exception) {
+            isGameExitting = true;
             System.out.println("GAME OVER!!");
             System.out.println(
-                              "IIIIIIIIIIIIIIIIIII" +
+                    "IIIIIIIIIIIIIIIIIII" +
                             "\nII                I" +
                             "\nII                I" +
                             "\nII                I" +
@@ -227,7 +223,7 @@ public class GameMode {
                         "\nII                I" +
                         "\nII                I" +
                         "\nII                I" +
-                        "\nII                "+hangManFace +
+                        "\nII                O"+
                         "\nII                I" +
                         "\nII               / \\" +
                         "\nII" +
