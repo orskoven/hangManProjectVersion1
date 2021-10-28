@@ -71,7 +71,9 @@ public class Game {
                 }
             } while (isGameRunning);
         } catch (InputMismatchException e) {
+            play("resources/introsounds.wav");
             ConsoleHelper1.main();
+
         }
     }
 
