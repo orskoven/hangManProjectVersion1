@@ -27,7 +27,7 @@ public class ConsoleHoler4 {
         switch (anim) {
 
             case 1:
-               print("Press 1 -SAVE\n_________________________________________________\n");
+               print("Press 1 - SAVE\n_________________________________________________\n");
                 break;
             case 2:
                 print("Press 3 - EXIT\n_________________________________________________\n");

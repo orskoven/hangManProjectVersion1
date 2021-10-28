@@ -1,6 +1,8 @@
 import com.logicbig.example.*;
 
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.util.*;
 
@@ -38,13 +40,14 @@ public class GameMode {
     public ArrayList<Character> getCharacterArrayList() {
         return characterArrayList;
     }
-    public void getGameFunctionalities(String wordToBeGuessed) throws InterruptedException {
+    public void getGameFunctionalities(String wordToBeGuessed, String fileName) throws InterruptedException {
             for (int i = 0; i < wordToBeGuessed.length(); i++) {
                 characterArrayListToBeGuessed.add(wordToBeGuessed.charAt(i));
                 characterArrayList.add('_');
         }
         System.out.println("Let the game begin!\n" + characterArrayList);
         System.out.println(drawHangman().get(0));
+        play(fileName);
         try {
             for (int i = 0, j = 0, k = 0; !isGameExitting; ) {
                 ConsoleHoler4.main();
@@ -95,7 +98,7 @@ public class GameMode {
         }
 
     }
-    public void getGameFunctionalitiesForSavedGame( String savedWord, String wordToBeGuessed, int k, int i, int j) {
+    public void getGameFunctionalitiesForSavedGame( String savedWord, String wordToBeGuessed, int k, int i, int j) throws InterruptedException {
         for (int l = 0; l < savedWord.length(); l++) {
             characterArrayList.add(savedWord.charAt(l));
         }
@@ -151,19 +154,7 @@ public class GameMode {
 
         } catch (IndexOutOfBoundsException | InterruptedException exception) {
             isGameExitting = true;
-            System.out.println("GAME OVER!!");
-            System.out.println(
-                    "IIIIIIIIIIIIIIIIIII" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                I" +
-                            "\nII                😵" +
-                            "\nII               -I-" +
-                            "\nII               / \\" +
-                            "\nII" +
-                            "\nII" +
-                            "\nII" +
-                            "\nIIIIIIIIIIIIIIIIIII");
+            ConsoleHoler3.main();
         }
 
     }
@@ -275,6 +266,20 @@ public class GameMode {
              System.out.println("Name not found!");
          }
      }
+    static void play(String filename)
+    {
+        try
+        {
+            Clip clip = AudioSystem.getClip();
+            ((Clip) clip).open(AudioSystem.getAudioInputStream(new File(filename)));
+            clip.start();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
+    }
+
 }
 
 

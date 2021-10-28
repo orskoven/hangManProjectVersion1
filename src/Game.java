@@ -4,6 +4,8 @@
 import com.logicbig.example.ConsoleHelper;
 import com.logicbig.example.ConsoleHelper1;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -26,27 +28,32 @@ public class Game {
     static GameMode savedGameCurrent = new GameMode();
 
 
-
+// This is the game
     public static void main(String[] args) throws InterruptedException {
+        play("resources/qualuty.wav");
         try {
             do {
+                play("resources/introsounds.wav");
                 ConsoleHelper.main();
                 System.out.println("\n\nPress 1 - FROG MODE\n_________________________________________________\n\n\n" +
                         "Press 2 - MOVIE MODE\n_________________________________________________\n\n\nPress 3 - SAVED GAME\n_________________________________________________\n\n\n" +
                         "Press X - EXIT\n_________________________________________________");
 
                 inputFromUser = scanner.nextInt();
+                // EASY / FROGMODE
                 if (inputFromUser == 1) {
                     GameMode easyGame = new GameMode();
-                    easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT));
+                    easyGame.getGameFunctionalities(getRandomFrogName(getAllFrogNames()).toLowerCase(Locale.ROOT),"resources/Classic Electric Pianohangmanversionversionversion.wav");
                     isGameRunning = easyGame.isGameRunning();
+                    // HARD / MOVIEMODE
                 } else if (inputFromUser == 2) {
                     GameMode hardGame = new GameMode();
                     System.out.println("Subject: " + getAllMoviesList().get(randomizer()).getSubject() + "\nYear: " +
                             getAllMoviesList().get(randomizer()).getYear() + "\nPopularity: " + getAllMoviesList().get(randomizer()).getPopularity());
-                    hardGame.getGameFunctionalities(getAllMoviesList().get(randomizer()).getTitle());
+                    hardGame.getGameFunctionalities(getAllMoviesList().get(randomizer()).getTitle(),"resources/moviefile.wav");
                     isGameRunning = hardGame.isGameRunning();
                     } else if (inputFromUser == 3) {
+                    // SAVED GAME MODE
                     GameMode savedGameCurrent = new GameMode();
                         try {
                         do {
@@ -166,6 +173,23 @@ public class Game {
             }
             return savedGameToLoad;
         }
+
+        // https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java is where the code is from:
+
+    static void play(String filename)
+    {
+        try
+        {
+            Clip clip = AudioSystem.getClip();
+            ((Clip) clip).open(AudioSystem.getAudioInputStream(new File(filename)));
+            clip.start();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
+    }
+
 
 
 }
